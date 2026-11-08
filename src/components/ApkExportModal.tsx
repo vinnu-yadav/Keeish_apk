@@ -237,12 +237,31 @@ import android.webkit.PermissionRequest
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
+import android.webkit.*
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.webkit.WebViewAssetLoader
 
 class MainActivity : AppCompatActivity() {
     private lateinit var webView: WebView
+    private var fileChooserCallback: ValueCallback<Array<Uri>>? = null
+
+    private val filePickerLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK && result.data != null) {
+            val uri = result.data?.data
+            fileChooserCallback?.onReceiveValue(if (uri != null) arrayOf(uri) else null)
+        } else {
+            fileChooserCallback?.onReceiveValue(null)
+        }
+        fileChooserCallback = null
+    }
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -263,7 +282,23 @@ class MainActivity : AppCompatActivity() {
             javaScriptEnabled = true
             domStorageEnabled = true
             databaseEnabled = true
+            allowFileAccess = true
+            allowContentAccess = true
             mediaPlaybackRequiresUserGesture = false
+        }
+
+        val assetLoader = WebViewAssetLoader.Builder()
+            .setDomain("appassets.androidplatform.net")
+            .addPathHandler("/assets/", WebViewAssetLoader.AssetsPathHandler(this))
+            .build()
+
+        webView.webViewClient = object : WebViewClient() {
+            override fun shouldInterceptRequest(
+                view: WebView,
+                request: WebResourceRequest
+            ): WebResourceResponse? {
+                return assetLoader.shouldInterceptRequest(request.url)
+            }
         }
 
         webView.webChromeClient = object : WebChromeClient() {
@@ -272,10 +307,24 @@ class MainActivity : AppCompatActivity() {
                     request.grant(request.resources)
                 }
             }
+
+            override fun onShowFileChooser(
+                view: WebView?,
+                callback: ValueCallback<Array<Uri>>?,
+                params: FileChooserParams?
+            ): Boolean {
+                fileChooserCallback = callback
+                val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+                    type = "image/*"
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                }
+                filePickerLauncher.launch(Intent.createChooser(intent, "Choose Profile Picture"))
+                return true
+            }
         }
-        webView.webViewClient = WebViewClient()
-        // Hosted dev app or production URL
-        webView.loadUrl("https://ais-dev-ttho46plqp4a4axrhvh35b-604804160282.asia-east1.run.app")
+
+        // Run directly from local APK assets (100% self-contained native app)
+        webView.loadUrl("https://appassets.androidplatform.net/assets/index.html")
     }
 }`
       );

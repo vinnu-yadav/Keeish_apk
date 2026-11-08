@@ -2,44 +2,86 @@ package com.tips.guides
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import android.webkit.PermissionRequest
+import android.webkit.ValueCallback
 import android.webkit.WebChromeClient
+import android.webkit.WebResourceRequest
+import android.webkit.WebResourceResponse
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import android.widget.ProgressBar
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsControllerCompat
+import androidx.webkit.WebViewAssetLoader
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var webView: WebView
     private lateinit var progressBar: ProgressBar
-    private var pendingPermissionRequest: PermissionRequest? = null
+    private lateinit var assetLoader: WebViewAssetLoader
+    private var fileChooserCallback: ValueCallback<Array<Uri>>? = null
 
     companion object {
         private const val PERMISSIONS_REQUEST_CODE = 1001
-        // Change to your deployed production URL or leave as local asset
-        const val APP_URL = "https://ais-dev-ttho46plqp4a4axrhvh35b-604804160282.asia-east1.run.app"
+        // Local Asset URL: Runs 100% natively from APK assets without external web preview URLs
+        const val LOCAL_APP_URL = "https://appassets.androidplatform.net/assets/index.html"
+    }
+
+    // Native Gallery Image Picker Launcher
+    private val filePickerLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK && result.data != null) {
+            val clipData = result.data?.clipData
+            val dataUri = result.data?.data
+
+            val results: Array<Uri> = when {
+                clipData != null -> {
+                    Array(clipData.itemCount) { i -> clipData.getItemAt(i).uri }
+                }
+                dataUri != null -> {
+                    arrayOf(dataUri)
+                }
+                else -> emptyArray()
+            }
+            fileChooserCallback?.onReceiveValue(if (results.isNotEmpty()) results else null)
+        } else {
+            fileChooserCallback?.onReceiveValue(null)
+        }
+        fileChooserCallback = null
     }
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Root container
+        // Native Dark Theme System Bar styling
+        setupSystemBars()
+
+        // Root layout with dark background
         val rootLayout = FrameLayout(this).apply {
-            setBackgroundColor(android.graphics.Color.parseColor("#080f1d"))
+            setBackgroundColor(Color.parseColor("#080f1d"))
         }
 
-        webView = WebView(this)
+        webView = WebView(this).apply {
+            setBackgroundColor(Color.parseColor("#080f1d"))
+        }
+
         progressBar = ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal).apply {
             isIndeterminate = false
             max = 100
@@ -63,10 +105,16 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(rootLayout)
 
+        // Configure Local Asset Loader (serves files directly from APK assets folder)
+        assetLoader = WebViewAssetLoader.Builder()
+            .setDomain("appassets.androidplatform.net")
+            .addPathHandler("/assets/", WebViewAssetLoader.AssetsPathHandler(this))
+            .build()
+
         checkAppPermissions()
         setupWebView()
 
-        // Handle Back button
+        // Back button navigation
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (webView.canGoBack()) {
@@ -78,7 +126,20 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        webView.loadUrl(APP_URL)
+        // Launch directly from local APK assets
+        webView.loadUrl(LOCAL_APP_URL)
+    }
+
+    private fun setupSystemBars() {
+        window.apply {
+            addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            statusBarColor = Color.parseColor("#080f1d")
+            navigationBarColor = Color.parseColor("#080f1d")
+        }
+        WindowInsetsControllerCompat(window, window.decorView).apply {
+            isAppearanceLightStatusBars = false
+            isAppearanceLightNavigationBars = false
+        }
     }
 
     private fun checkAppPermissions() {
@@ -118,7 +179,15 @@ class MainActivity : AppCompatActivity() {
             userAgentString = userAgentString + " TipsNativeApp/1.0.0"
         }
 
+        // Intercept asset requests to serve straight from APK assets
         webView.webViewClient = object : WebViewClient() {
+            override fun shouldInterceptRequest(
+                view: WebView,
+                request: WebResourceRequest
+            ): WebResourceResponse? {
+                return assetLoader.shouldInterceptRequest(request.url)
+            }
+
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 progressBar.visibility = View.GONE
@@ -135,7 +204,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            // CRITICAL: Grant WebRTC Camera and Microphone permissions to the WebView
+            // CRITICAL: Grant WebRTC Camera and Microphone permissions natively
             override fun onPermissionRequest(request: PermissionRequest) {
                 runOnUiThread {
                     val requestedResources = request.resources
@@ -156,18 +225,29 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-        }
-    }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == PERMISSIONS_REQUEST_CODE) {
-            pendingPermissionRequest?.let {
-                setupWebView()
+            // CRITICAL: Native Image & File Picker for Profile Photo Selection
+            override fun onShowFileChooser(
+                webView: WebView?,
+                filePathCallback: ValueCallback<Array<Uri>>?,
+                fileChooserParams: FileChooserParams?
+            ): Boolean {
+                fileChooserCallback?.onReceiveValue(null)
+                fileChooserCallback = filePathCallback
+
+                val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+                    type = "image/*"
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                    putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("image/jpeg", "image/png", "image/webp", "image/gif"))
+                }
+
+                return try {
+                    filePickerLauncher.launch(Intent.createChooser(intent, "Choose Profile Picture"))
+                    true
+                } catch (e: Exception) {
+                    fileChooserCallback = null
+                    false
+                }
             }
         }
     }
