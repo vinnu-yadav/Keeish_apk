@@ -96,18 +96,12 @@ Your compilable APK will be at:
         mavenCentral()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:8.2.2")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22")
+        classpath 'com.android.tools.build:gradle:8.2.2'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22'
     }
 }
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
-tasks.register("clean", Delete::class) {
-    delete(rootProject.buildDir)
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }`
       );
 
@@ -299,7 +293,7 @@ class MainActivity : AppCompatActivity() {
 </resources>`
       );
 
-      // GitHub workflow
+      // GitHub workflow (fixed for GitHub Actions runners)
       const ghWorkflow = zip.folder('.github')?.folder('workflows')!;
       ghWorkflow.file(
         'build-apk.yml',
@@ -314,14 +308,30 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - uses: android-actions/setup-android@v3
-      - run: |
-          cd android
-          chmod +x gradlew || true
-          gradle assembleDebug --stacktrace
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Build Web Dist
+        run: |
+          npm ci || npm install
+          npm run build
+      - name: Copy Assets to Android
+        run: |
+          mkdir -p android/app/src/main/assets
+          cp -r dist/* android/app/src/main/assets/
+      - name: Accept Android SDK Licenses
+        run: yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses 2>/dev/null || true
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+      - name: Build Debug APK
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon --stacktrace
       - uses: actions/upload-artifact@v4
         with:
-          name: tips-debug-apk
+          name: Keeish-Tips-Debug-APK
           path: android/app/build/outputs/apk/debug/*.apk`
       );
 

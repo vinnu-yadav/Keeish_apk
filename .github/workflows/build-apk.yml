@@ -19,11 +19,15 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+          cache: 'gradle'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
 
-      - name: Build Web App
+      - name: Build Web Application
         run: |
           npm ci || npm install
           npm run build
@@ -31,24 +35,30 @@ jobs:
       - name: Copy Web Dist to Android Assets
         run: |
           mkdir -p android/app/src/main/assets
-          cp -r dist/* android/app/src/main/assets/ || true
+          cp -r dist/* android/app/src/main/assets/
 
-      - name: Make Gradle executable
+      - name: Accept Android SDK Licenses
         run: |
-          chmod +x android/gradlew || true
+          yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses 2>/dev/null || true
 
-      - name: Build Debug APK
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Make Gradle Wrapper Executable
+        run: chmod +x android/gradlew
+
+      - name: Build Android Debug APK
         working-directory: android
+        run: ./gradlew assembleDebug --no-daemon --stacktrace
+
+      - name: Verify APK Generated
         run: |
-          if [ -f "gradlew" ]; then
-            ./gradlew assembleDebug --stacktrace
-          else
-            gradle assembleDebug --stacktrace
-          fi
+          echo "=== Generated APK Files ==="
+          ls -la android/app/build/outputs/apk/debug/
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: tips-debug-apk
+          name: Keeish-Tips-Debug-APK
           path: android/app/build/outputs/apk/debug/*.apk
-          retention-days: 14
+          retention-days: 30
