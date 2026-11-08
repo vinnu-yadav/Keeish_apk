@@ -1,0 +1,28 @@
+{
+  "id": "/",
+  "name": "Tips — Manuals & Quick Guides",
+  "short_name": "Tips",
+  "description": "Practical manuals and everyday handy tips for curious minds.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#080f1d",
+  "theme_color": "#080f1d",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["utilities", "lifestyle"],
+  "prefer_related_applications": false
+}

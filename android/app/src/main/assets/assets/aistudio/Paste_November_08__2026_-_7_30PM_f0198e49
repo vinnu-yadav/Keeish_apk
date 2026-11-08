@@ -1,0 +1,2359 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#101827">
+  <title id="pageTitle">Tips — Manuals & Quick Guides</title>
+
+  <style>
+    :root {
+      font-family: Arial, sans-serif;
+      color: #edf2fc;
+      background: #080f1d;
+      color-scheme: dark;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100dvh;
+      background:
+        radial-gradient(circle at top left, #153b42, transparent 50%),
+        #080f1d;
+      overflow-x: hidden;
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      min-height: 44px;
+      padding: 11px 14px;
+      border: 0;
+      border-radius: 12px;
+      cursor: pointer;
+      background: #67e8c4;
+      color: #09271f;
+      font-weight: bold;
+      transition: background 0.2s, transform 0.15s, opacity 0.2s;
+    }
+
+    button:hover:not(:disabled) {
+      filter: brightness(1.08);
+    }
+
+    button:active:not(:disabled) {
+      transform: scale(0.98);
+    }
+
+    button:disabled {
+      cursor: not-allowed;
+      opacity: .5;
+    }
+
+    .secondary {
+      background: #25364e;
+      color: #e7eef8;
+      font-size: 12px;
+    }
+    .secondary:hover:not(:disabled) {
+      background: #2f4463;
+    }
+
+    .danger {
+      background: #ff5570;
+      color: white;
+    }
+    .danger:hover:not(:disabled) {
+      background: #ff3b5b;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #35465e;
+      border-radius: 13px;
+      outline: none;
+      background: #0b1525;
+      color: white;
+      font-size: 16px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: #67e8c4;
+      box-shadow: 0 0 0 3px rgba(103, 232, 196, 0.15);
+    }
+
+    label {
+      display: block;
+      margin: 18px 0 8px;
+      color: #c8d3e2;
+      font-size: 14px;
+    }
+
+    .muted {
+      color: #9daec2;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .error {
+      min-height: 21px;
+      color: #ffb4b4;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    /* Brand base */
+    .brand {
+      display: grid;
+      place-items: center;
+      width: 62px;
+      height: 62px;
+      border-radius: 18px;
+      font-size: 30px;
+      font-weight: 900;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), background 0.6s ease, box-shadow 0.6s ease;
+      position: relative;
+    }
+
+    /* Tips logo: white lightbulb on warm yellow background */
+    .brand.bulb-mode {
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      color: #ffffff;
+      box-shadow: 0 6px 26px rgba(245, 158, 11, 0.45);
+    }
+
+    .bulb-svg {
+      filter: drop-shadow(0 2px 6px rgba(255, 255, 255, 0.45));
+    }
+
+    /* Love Heart logo mode: vibrant heart shape on crimson/rose background */
+    .brand.heart-mode {
+      background: linear-gradient(135deg, #ff4d6d 0%, #e11d48 100%);
+      color: #ffffff;
+      box-shadow: 0 8px 30px rgba(255, 77, 109, 0.65);
+      animation: brandHeartPulse 1.1s ease-in-out infinite;
+    }
+
+    @keyframes brandHeartPulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.12);
+      }
+    }
+
+    @keyframes popIn {
+      0% {
+        transform: scale(0.2) rotate(-25deg);
+        opacity: 0;
+      }
+      65% {
+        transform: scale(1.18) rotate(6deg);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+      }
+    }
+
+    .card {
+      width: min(100%, 430px);
+      padding: 30px;
+      border: 1px solid #2a3b51;
+      border-radius: 26px;
+      background: #101b2ceb;
+      box-shadow: 0 25px 90px #0008;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+    }
+
+    #loginScreen {
+      min-height: 100dvh;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #loginScreen.fade-out {
+      opacity: 0;
+      transform: scale(0.97) translateY(-14px);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      margin-top: 20px;
+      color: #67e8c4;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: opacity 0.35s ease, color 0.35s ease;
+    }
+
+    h1 {
+      margin: 17px 0 10px;
+      font-size: 35px;
+      line-height: 1.05;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+    }
+
+    #loginForm button {
+      width: 100%;
+      margin-top: 22px;
+    }
+
+    /* Reveal transition banner */
+    .reveal-banner {
+      display: none;
+      margin-top: 18px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(255, 77, 109, 0.16);
+      border: 1px solid rgba(255, 77, 109, 0.4);
+      color: #ffaec0;
+      font-size: 13px;
+      font-weight: bold;
+      text-align: center;
+      animation: gentleBannerPulse 1.4s infinite ease-in-out;
+    }
+
+    @keyframes gentleBannerPulse {
+      0%, 100% { opacity: 0.9; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.02); }
+    }
+
+    /* Full-screen expanding heart overlay for 4-sec transition */
+    #heartTransitionOverlay {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      display: grid;
+      place-items: center;
+      background: radial-gradient(circle, #210d19 0%, #080f1d 95%);
+      pointer-events: none;
+      opacity: 1;
+      transition: opacity 1.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #heartTransitionOverlay.overlay-fadeout {
+      opacity: 0;
+    }
+
+    .heart-expander {
+      display: grid;
+      place-items: center;
+      transform: scale(0.4);
+      will-change: transform, opacity;
+    }
+
+    .heart-expander.heart-grow-anim {
+      animation: heartGrowFullScreen 2.9s cubic-bezier(0.25, 1, 0.4, 1) forwards;
+    }
+
+    @keyframes heartGrowFullScreen {
+      0% {
+        transform: scale(0.4);
+        opacity: 0.6;
+      }
+      22% {
+        transform: scale(1.4);
+        opacity: 1;
+      }
+      38% {
+        transform: scale(1.15);
+        opacity: 1;
+      }
+      65% {
+        transform: scale(14);
+        opacity: 0.96;
+      }
+      100% {
+        transform: scale(65);
+        opacity: 0.98;
+      }
+    }
+
+    .huge-heart-svg {
+      width: 110px;
+      height: 110px;
+      fill: #ff2d55;
+      filter: drop-shadow(0 0 45px rgba(255, 45, 85, 0.9));
+    }
+
+    #chatScreen {
+      width: min(100%, 980px);
+      height: 100dvh;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      background: #0d1625;
+      border-inline: 1px solid #273447;
+      opacity: 1;
+      transform: none;
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #chatScreen.anim-enter {
+      animation: gentleScreenEnter 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes gentleScreenEnter {
+      0% {
+        opacity: 0;
+        transform: scale(0.98) translateY(16px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: max(14px, env(safe-area-inset-top)) 13px 14px;
+      background: #111e30;
+      border-bottom: 1px solid #273447;
+    }
+
+    header .brand {
+      width: 43px;
+      height: 43px;
+      border-radius: 14px;
+      font-size: 23px;
+      flex-shrink: 0;
+      background: #67e8c4;
+      color: #09271f;
+      box-shadow: none;
+    }
+
+    .heading {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .heading strong {
+      display: block;
+      font-size: 16px;
+    }
+
+    #connection,
+    #userSummary {
+      display: block;
+      margin-top: 3px;
+      overflow: hidden;
+      color: #a7b7cb;
+      font-size: 11px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .room-note {
+      padding: 8px;
+      border-bottom: 1px solid #202f42;
+      color: #a6b5ca;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    #messages {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      padding: 20px 14px 80px;
+    }
+
+    .empty {
+      padding: 55px 10px;
+      color: #91a3ba;
+      text-align: center;
+    }
+
+    .message {
+      position: relative;
+      width: fit-content;
+      max-width: 84%;
+      margin-bottom: 14px;
+      padding: 11px 14px;
+      border-radius: 17px 17px 17px 5px;
+      background: #1b2a40;
+      overflow-wrap: anywhere;
+      user-select: none;
+      touch-action: manipulation;
+    }
+
+    .message.mine {
+      margin-left: auto;
+      border-radius: 17px 17px 5px 17px;
+      background: #164b42;
+    }
+
+    .sender {
+      margin-bottom: 5px;
+      color: #8de6cc;
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    .body {
+      white-space: pre-wrap;
+      line-height: 1.5;
+      font-size: 15px;
+    }
+
+    .time {
+      margin-top: 6px;
+      color: #a9b8cb;
+      text-align: right;
+      font-size: 10px;
+    }
+
+    footer {
+      padding: 8px 12px max(12px, env(safe-area-inset-bottom));
+      background: #111e30;
+      border-top: 1px solid #273447;
+    }
+
+    #composer {
+      display: flex;
+      align-items: flex-end;
+      gap: 9px;
+    }
+
+    textarea {
+      min-height: 52px;
+      max-height: 140px;
+      resize: none;
+    }
+
+    #sendButton {
+      min-width: 68px;
+      height: 52px;
+    }
+
+    .unsend-overlay {
+      position: absolute;
+      z-index: 10;
+      right: 4px;
+      bottom: -58px;
+      display: flex;
+      gap: 7px;
+      padding: 7px;
+      border: 1px solid #43546c;
+      border-radius: 15px;
+      background: #16243a;
+      box-shadow: 0 10px 30px #000b;
+    }
+
+    .unsend-button,
+    .cancel-unsend-button {
+      min-height: 37px;
+      padding: 8px 11px;
+      border-radius: 10px;
+      font-size: 12px;
+    }
+
+    .unsend-button {
+      background: #ff5570;
+      color: white;
+    }
+
+    .cancel-unsend-button {
+      background: #2a3d57;
+      color: white;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background: #000a;
+    }
+
+    .modal-card {
+      width: min(100%, 460px);
+      max-height: 86dvh;
+      overflow-y: auto;
+      padding: 23px;
+      border: 1px solid #354860;
+      border-radius: 22px;
+      background: #111e30;
+      box-shadow: 0 25px 90px #000;
+    }
+
+    .modal-actions,
+    .call-actions {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .modal-actions button,
+    .call-actions button {
+      flex: 1;
+      min-width: 100px;
+    }
+
+    .info-row {
+      margin: 14px 0;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #2a3b52;
+    }
+
+    .info-label {
+      margin-bottom: 5px;
+      color: #91a3ba;
+      font-size: 12px;
+    }
+
+    .info-value {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      line-height: 1.5;
+    }
+
+    #usersList {
+      display: grid;
+      gap: 9px;
+      margin-top: 16px;
+    }
+
+    .user-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px;
+      border-radius: 12px;
+      background: #192a40;
+    }
+
+    .user-name {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .user-status {
+      color: #a6b5ca;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .user-status.active {
+      color: #67e8c4;
+    }
+
+    .user-call-buttons {
+      display: flex;
+      gap: 5px;
+    }
+
+    .call-user-button {
+      min-width: 36px;
+      min-height: 34px;
+      padding: 6px 8px;
+      border-radius: 9px;
+      font-size: 15px;
+    }
+
+    .call-card {
+      text-align: center;
+    }
+
+    .call-icon {
+      display: grid;
+      place-items: center;
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 15px;
+      border-radius: 50%;
+      background: #67e8c4;
+      color: #09271f;
+      font-size: 34px;
+    }
+
+    .active-call-card {
+      width: min(100%, 650px);
+    }
+
+    .video-area {
+      position: relative;
+      width: 100%;
+      min-height: 280px;
+      margin-top: 18px;
+      overflow: hidden;
+      border-radius: 18px;
+      background: #050912;
+    }
+
+    #remoteVideo {
+      display: block;
+      width: 100%;
+      height: 360px;
+      object-fit: cover;
+      background: #050912;
+    }
+
+    #localVideo {
+      position: absolute;
+      right: 12px;
+      bottom: 12px;
+      width: 125px;
+      height: 170px;
+      border: 2px solid #67e8c4;
+      border-radius: 13px;
+      object-fit: cover;
+      background: #101827;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        gap: 5px;
+      }
+
+      header .secondary {
+        padding: 8px 7px;
+        font-size: 10px;
+      }
+
+      .message {
+        max-width: 91%;
+      }
+
+      .user-row {
+        flex-wrap: wrap;
+      }
+
+      .user-name {
+        flex-basis: 100%;
+      }
+
+      #remoteVideo {
+        height: 260px;
+      }
+
+      #localVideo {
+        width: 90px;
+        height: 125px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Full-screen expanding heart overlay (4-second transition to dashboard) -->
+  <div id="heartTransitionOverlay" hidden>
+    <div id="heartExpander" class="heart-expander">
+      <svg class="huge-heart-svg" viewBox="0 0 24 24">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+      </svg>
+    </div>
+  </div>
+
+  <main id="loginScreen">
+    <section class="card" id="loginCard">
+      <!-- Tips lightbulb icon with white bulb and warm yellow background -->
+      <div class="brand bulb-mode" id="brandLogo">
+        <svg class="bulb-svg" viewBox="0 0 24 24" width="32" height="32" fill="none">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.87-3.13-7-7-7z" fill="#ffffff" />
+          <path d="M9 19h6c0 .55-.45 1-1 1h-4c-.55 0-1-.45-1-1z" fill="#ffffff" />
+          <path d="M10 21h4c0 .55-.45 1-1 1h-2c-.55 0-1-.45-1-1z" fill="#ffffff" />
+        </svg>
+      </div>
+
+      <div class="eyebrow" id="brandEyebrow">Tips · Manuals & Guides</div>
+
+      <h1 id="brandHeading">Practical manuals.<br>Quick tips.</h1>
+
+      <p class="muted" id="brandSubtitle">
+        Sign in with your manual reader account to access guides.
+      </p>
+
+      <form id="loginForm">
+        <label for="email">Account email</label>
+        <input
+          id="email"
+          type="email"
+          autocomplete="username"
+          placeholder="user@example.com"
+          required
+        >
+
+        <label for="password">Security password</label>
+        <input
+          id="password"
+          type="password"
+          autocomplete="current-password"
+          placeholder="Enter your password"
+          required
+        >
+
+        <button id="loginButton" type="submit" disabled>
+          Loading reader…
+        </button>
+
+        <p id="loginError" class="error"></p>
+      </form>
+
+      <div id="revealBanner" class="reveal-banner">
+        <span>❤️ Access Granted — Accessing Keeish Space…</span>
+      </div>
+
+      <p class="muted" id="brandFooterNote">The app that offers manuals and everyday handy tips.</p>
+    </section>
+  </main>
+
+  <section id="chatScreen" hidden>
+    <header>
+      <div class="brand">k</div>
+
+      <div class="heading">
+        <strong>Keeish Chat</strong>
+        <span id="connection">Connecting…</span>
+        <span id="userSummary">0 active · 0 inactive · 0 total</span>
+      </div>
+
+      <button id="usersButton" class="secondary" type="button">
+        Users
+      </button>
+
+      <button id="editNameButton" class="secondary" type="button">
+        Name
+      </button>
+
+      <button id="logoutButton" class="secondary" type="button">
+        Logout
+      </button>
+    </header>
+
+    <div class="room-note">
+      Tap a message for info · Hold your own message for unsend
+    </div>
+
+    <div id="messages">
+      <div class="empty">Loading messages…</div>
+    </div>
+
+    <footer>
+      <p id="chatError" class="error"></p>
+
+      <form id="composer">
+        <textarea
+          id="messageInput"
+          maxlength="2000"
+          rows="1"
+          placeholder="Write a message…"
+          required
+        ></textarea>
+
+        <button id="sendButton" type="submit" disabled>
+          Send
+        </button>
+      </form>
+    </footer>
+  </section>
+
+  <div id="nameModal" class="modal" hidden>
+    <section class="modal-card">
+      <h2 id="nameTitle">Choose your chatting name</h2>
+
+      <p class="muted">
+        This name will be visible to other members.
+      </p>
+
+      <form id="nameForm">
+        <label for="chatNameInput">Chatting name</label>
+        <input
+          id="chatNameInput"
+          maxlength="30"
+          placeholder="Enter your name"
+          required
+        >
+
+        <p id="nameError" class="error"></p>
+
+        <div class="modal-actions">
+          <button id="cancelNameButton" class="secondary" type="button">
+            Cancel
+          </button>
+
+          <button id="saveNameButton" type="submit">
+            Save name
+          </button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <div id="usersModal" class="modal" hidden>
+    <section class="modal-card">
+      <h2>Chat users</h2>
+
+      <p id="usersCount" class="muted"></p>
+
+      <div id="usersList"></div>
+
+      <div class="modal-actions">
+        <button id="closeUsersButton" class="secondary" type="button">
+          Close
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <div id="infoModal" class="modal" hidden>
+    <section class="modal-card">
+      <h2>Message information</h2>
+
+      <div class="info-row">
+        <div class="info-label">Sender</div>
+        <div id="infoSender" class="info-value"></div>
+      </div>
+
+      <div class="info-row">
+        <div class="info-label">Message</div>
+        <div id="infoText" class="info-value"></div>
+      </div>
+
+      <div class="info-row">
+        <div class="info-label">Sent time</div>
+        <div id="infoSent" class="info-value"></div>
+      </div>
+
+      <div class="info-row">
+        <div class="info-label">Seen time</div>
+        <div id="infoSeen" class="info-value"></div>
+      </div>
+
+      <div class="modal-actions">
+        <button id="closeInfoButton" class="secondary" type="button">
+          Close
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <div id="incomingCallModal" class="modal" hidden>
+    <section class="modal-card call-card">
+      <div class="call-icon">📞</div>
+
+      <h2 id="incomingCallTitle">Incoming call</h2>
+
+      <p id="incomingCallType" class="muted">
+        Someone is calling you
+      </p>
+
+      <div class="call-actions">
+        <button id="acceptCallButton" type="button">
+          Accept
+        </button>
+
+        <button id="rejectCallButton" class="danger" type="button">
+          Reject
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <div id="callModal" class="modal" hidden>
+    <section class="modal-card active-call-card">
+      <h2 id="callTitle">Calling…</h2>
+
+      <div class="video-area">
+        <video id="remoteVideo" autoplay playsinline></video>
+        <video id="localVideo" autoplay muted playsinline></video>
+      </div>
+
+      <p id="callStatus" class="muted">Connecting…</p>
+
+      <div class="call-actions">
+        <button id="muteButton" class="secondary" type="button">
+          🎙️ Mute
+        </button>
+
+        <button id="cameraButton" class="secondary" type="button">
+          📹 Camera off
+        </button>
+
+        <button id="speakerButton" class="secondary" type="button">
+          🔊 Speaker
+        </button>
+
+        <button id="endCallButton" class="danger" type="button">
+          End call
+        </button>
+      </div>
+    </section>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from
+      "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+
+    import {
+      getAuth,
+      setPersistence,
+      browserSessionPersistence,
+      signInWithEmailAndPassword,
+      onAuthStateChanged,
+      signOut
+    } from
+      "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+    import {
+      getDatabase,
+      ref,
+      get,
+      set,
+      update,
+      remove,
+      push,
+      query,
+      orderByChild,
+      limitToLast,
+      onValue,
+      onDisconnect,
+      serverTimestamp
+    } from
+      "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD1utosh7SoMcp8emH1KtjSN9qVcOVP4sE",
+      authDomain: "keeish.firebaseapp.com",
+      databaseURL:
+        "https://keeish-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "keeish",
+      storageBucket: "keeish.firebasestorage.app",
+      messagingSenderId: "757713727711",
+      appId: "1:757713727711:web:e41b3c86d350a49cdd396a",
+      measurementId: "G-SS35BP7JK9"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
+    const BASE = "keeishChat";
+    const $ = id => document.getElementById(id);
+
+    let currentUser = null;
+    let chatName = "";
+    let connected = false;
+    let messagesLoaded = false;
+    let currentMessages = new Map();
+    let registeredUsers = {};
+    let presenceData = {};
+    let listeners = [];
+    let presenceRef = null;
+    let presenceTabRef = null;
+    let longPressTimer = null;
+    let longPressTriggered = false;
+
+    let peerConnection = null;
+    let localStream = null;
+    let currentCallId = null;
+    let currentCallType = null;
+    let pendingIncomingCall = null;
+    let callListeners = [];
+    let ringtoneContext = null;
+    let ringtoneTimer = null;
+    let speakerOn = true;
+
+    // Transition state
+    let isRevealingKeeish = false;
+
+    const rtcConfiguration = {
+      iceServers: [
+        { urls: "stun:stun.l.google.com:19302" },
+        { urls: "stun:stun1.l.google.com:19302" }
+      ]
+    };
+
+    // White bulb SVG markup for Tips disguise
+    const bulbSvgMarkup = `
+      <svg class="bulb-svg" viewBox="0 0 24 24" width="32" height="32" fill="none">
+        <path d="M12 2C8.13 2 5 5.13 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.87-3.13-7-7-7z" fill="#ffffff" />
+        <path d="M9 19h6c0 .55-.45 1-1 1h-4c-.55 0-1-.45-1-1z" fill="#ffffff" />
+        <path d="M10 21h4c0 .55-.45 1-1 1h-2c-.55 0-1-.45-1-1z" fill="#ffffff" />
+      </svg>`;
+
+    // Heart shape SVG markup
+    const heartSvgMarkup = `
+      <svg viewBox="0 0 24 24" width="34" height="34" fill="#ffffff" style="animation: popIn 0.45s cubic-bezier(0.17, 0.89, 0.32, 1.25)">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+      </svg>`;
+
+    // Sets camouflage before login: Tips manual app with white bulb on yellow background
+    function applyTipsCamouflage() {
+      document.title = "Tips — Manuals & Quick Guides";
+      const themeMeta = document.querySelector('meta[name="theme-color"]');
+      if (themeMeta) themeMeta.setAttribute("content", "#080f1d");
+
+      const logo = $("brandLogo");
+      logo.className = "brand bulb-mode";
+      logo.innerHTML = bulbSvgMarkup;
+
+      $("brandEyebrow").textContent = "Tips · Manuals & Guides";
+      $("brandHeading").innerHTML = "Practical manuals.<br>Quick tips.";
+      $("brandSubtitle").textContent = "Sign in with your manual reader account to access guides.";
+      $("brandFooterNote").textContent = "The app that offers manuals and everyday handy tips.";
+      $("revealBanner").style.display = "none";
+      $("loginButton").textContent = "Sign in";
+
+      $("heartTransitionOverlay").hidden = true;
+      $("loginScreen").classList.remove("fade-out");
+      $("loginScreen").hidden = false;
+      $("chatScreen").hidden = true;
+      $("chatScreen").classList.remove("anim-enter");
+    }
+
+    // 4-second sequence:
+    // 1. Success access -> Bulb morphs to Heart shape (love) with pulse & Keeish text reveal (~1.1s)
+    // 2. Heart expands smoothly to full screen (~1.4s)
+    // 3. Heart fades out gracefully (~1.5s), entering the dashboard exactly at 4 seconds.
+    async function playGentlyRevealAndEnter(callback) {
+      if (isRevealingKeeish) return;
+      isRevealingKeeish = true;
+
+      // Keep the user on the successful-login page for 6 seconds
+      // before beginning the animated transition to the dashboard.
+      await new Promise(r => setTimeout(r, 2000));
+
+      const startTime = Date.now();
+
+      const logo = $("brandLogo");
+      const eyebrow = $("brandEyebrow");
+      const heading = $("brandHeading");
+      const subtitle = $("brandSubtitle");
+      const banner = $("revealBanner");
+
+      // Stage 1: Morph bulb to Heart (Love) shape with rose glow
+      logo.className = "brand heart-mode";
+      logo.innerHTML = heartSvgMarkup;
+
+      banner.style.display = "block";
+      banner.innerHTML = "<span>❤️ Access Granted — Welcome to Keeish…</span>";
+
+      eyebrow.textContent = "Keeish · Private Space";
+      heading.innerHTML = "Your people.<br>Your space.";
+      subtitle.textContent = "Welcome back to Keeish Chat.";
+      document.title = "Keeish Chat";
+
+      // Let user enjoy the heart morph on the card for ~1100ms
+      await new Promise(r => setTimeout(r, 1100));
+
+      // Stage 2: Enlarge heart shape as full screen
+      const overlay = $("heartTransitionOverlay");
+      const expander = $("heartExpander");
+      overlay.hidden = false;
+      overlay.classList.remove("overlay-fadeout");
+      expander.classList.remove("heart-grow-anim");
+      // Trigger CSS animation restart
+      void expander.offsetWidth;
+      expander.classList.add("heart-grow-anim");
+
+      // Allow heart to grow and cover full screen
+      await new Promise(r => setTimeout(r, 1400));
+
+      // Stage 3: Hide login screen, prepare dashboard behind full-screen heart
+      $("loginScreen").hidden = true;
+      banner.style.display = "none";
+
+      if (callback) callback();
+      $("chatScreen").classList.add("anim-enter");
+
+      // Stage 4: Gently fade out the full-screen heart overlay
+      overlay.classList.add("overlay-fadeout");
+
+      // Ensure total elapsed time from start is precisely 4 seconds (4000ms)
+      const elapsed = Date.now() - startTime;
+      const remainingTime = Math.max(0, 4000 - elapsed);
+      await new Promise(r => setTimeout(r, remainingTime));
+
+      overlay.hidden = true;
+      overlay.classList.remove("overlay-fadeout");
+      isRevealingKeeish = false;
+    }
+
+    function formatTime(value) {
+      if (value === null || value === undefined) {
+        return "Not available";
+      }
+
+      const date = new Date(value);
+
+      if (Number.isNaN(date.getTime())) {
+        return "Not available";
+      }
+
+      return date.toLocaleString([], {
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+    }
+
+    function updateSendButton() {
+      $("sendButton").disabled =
+        !currentUser ||
+        !chatName ||
+        !connected ||
+        !messagesLoaded ||
+        !$("messageInput").value.trim();
+    }
+
+    function closeUnsendOverlay() {
+      document.querySelector(".unsend-overlay")?.remove();
+    }
+
+    function clearLongPress() {
+      if (longPressTimer) {
+        clearTimeout(longPressTimer);
+        longPressTimer = null;
+      }
+    }
+
+    function showUnsendOverlay(messageId, element) {
+      const message = currentMessages.get(messageId);
+
+      if (!message || message.uid !== currentUser.uid) {
+        return;
+      }
+
+      closeUnsendOverlay();
+
+      const overlay = document.createElement("div");
+      overlay.className = "unsend-overlay";
+
+      const unsend = document.createElement("button");
+      unsend.className = "unsend-button";
+      unsend.type = "button";
+      unsend.textContent = "↩ Unsend";
+
+      const cancel = document.createElement("button");
+      cancel.className = "cancel-unsend-button";
+      cancel.type = "button";
+      cancel.textContent = "Cancel";
+
+      unsend.onclick = async event => {
+        event.stopPropagation();
+        unsend.disabled = true;
+        unsend.textContent = "Removing…";
+
+        try {
+          await remove(ref(db, `${BASE}/messages/${messageId}`));
+          closeUnsendOverlay();
+        } catch (error) {
+          console.error(error);
+          unsend.disabled = false;
+          unsend.textContent = "↩ Unsend";
+          $("chatError").textContent =
+            "Message could not be unsent.";
+        }
+      };
+
+      cancel.onclick = event => {
+        event.stopPropagation();
+        closeUnsendOverlay();
+      };
+
+      overlay.append(unsend, cancel);
+      element.appendChild(overlay);
+    }
+
+    function attachMessageEvents(element, messageId, message) {
+      if (!currentUser || message.uid !== currentUser.uid) {
+        return;
+      }
+
+      element.oncontextmenu = event => {
+        event.preventDefault();
+        showUnsendOverlay(messageId, element);
+      };
+
+      element.onpointerdown = event => {
+        if (event.target.closest(".unsend-overlay")) {
+          return;
+        }
+
+        clearLongPress();
+        longPressTriggered = false;
+
+        longPressTimer = setTimeout(() => {
+          longPressTriggered = true;
+          showUnsendOverlay(messageId, element);
+        }, 600);
+      };
+
+      element.onpointerup = clearLongPress;
+      element.onpointercancel = clearLongPress;
+      element.onpointerleave = clearLongPress;
+    }
+
+    function showMessageInfo(messageId, message) {
+      $("infoSender").textContent =
+        message.senderName ||
+        (message.uid === currentUser.uid ? "You" : "Unknown member");
+
+      $("infoText").textContent = message.text || "";
+      $("infoSent").textContent = formatTime(message.createdAt);
+      $("infoSeen").textContent = "Loading…";
+      $("infoModal").hidden = false;
+
+      get(ref(db, `${BASE}/messageSeen/${messageId}`))
+        .then(snapshot => {
+          if (!snapshot.exists()) {
+            $("infoSeen").textContent = "Not seen yet";
+            return;
+          }
+
+          const values = Object.values(snapshot.val() || {})
+            .filter(value => typeof value === "number")
+            .sort((a, b) => b - a);
+
+          $("infoSeen").textContent = values.length
+            ? formatTime(values[0])
+            : "Not seen yet";
+        })
+        .catch(() => {
+          $("infoSeen").textContent = "Not available";
+        });
+    }
+
+    function createMessageElement(id, message) {
+      const mine = message.uid === currentUser.uid;
+      const element = document.createElement("article");
+
+      element.className = mine ? "message mine" : "message";
+
+      const sender = document.createElement("div");
+      sender.className = "sender";
+      sender.textContent = mine
+        ? "You"
+        : message.senderName || "Unknown member";
+
+      const body = document.createElement("div");
+      body.className = "body";
+      body.textContent = message.text || "";
+
+      const time = document.createElement("div");
+      time.className = "time";
+      time.textContent = formatTime(message.createdAt);
+
+      element.append(sender, body, time);
+
+      element.onclick = () => {
+        if (longPressTriggered) {
+          longPressTriggered = false;
+          return;
+        }
+
+        showMessageInfo(id, message);
+      };
+
+      attachMessageEvents(element, id, message);
+      return element;
+    }
+
+    function renderMessages(snapshot) {
+      currentMessages.clear();
+
+      const fragment = document.createDocumentFragment();
+
+      if (!snapshot.exists()) {
+        const empty = document.createElement("div");
+        empty.className = "empty";
+        empty.textContent = "No messages yet. Say hello!";
+        fragment.appendChild(empty);
+      } else {
+        snapshot.forEach(child => {
+          const message = child.val();
+          currentMessages.set(child.key, message);
+          fragment.appendChild(
+            createMessageElement(child.key, message)
+          );
+        });
+      }
+
+      $("messages").replaceChildren(fragment);
+      $("messages").scrollTop = $("messages").scrollHeight;
+
+      messagesLoaded = true;
+      updateSendButton();
+
+      snapshot.forEach(child => {
+        const message = child.val();
+
+        if (message.uid !== currentUser.uid) {
+          set(
+            ref(
+              db,
+              `${BASE}/messageSeen/${child.key}/${currentUser.uid}`
+            ),
+            serverTimestamp()
+          ).catch(() => {});
+        }
+      });
+    }
+
+    function renderUsers() {
+      const ids = new Set([
+        ...Object.keys(registeredUsers),
+        ...Object.keys(presenceData)
+      ]);
+
+      const users = [...ids]
+        .map(uid => {
+          const saved = registeredUsers[uid] || {};
+          const presence = presenceData[uid] || {};
+          const tabs = presence.tabs || {};
+          const tabList = Object.values(tabs).filter(Boolean);
+          const anyOnline = tabList.some(
+            tab => tab && tab.online === true
+          );
+
+          return {
+            uid,
+            name:
+              saved.chatName ||
+              presence.chatName ||
+              tabList[0]?.chatName ||
+              "",
+            online: anyOnline
+          };
+        })
+        .filter(user => user.name.trim())
+        .sort((a, b) => a.name.localeCompare(b.name));
+
+      const active = users.filter(user => user.online).length;
+      const inactive = users.length - active;
+      const summary = `${active} active · ${inactive} inactive · ${users.length} total`;
+
+      $("userSummary").textContent = summary;
+      $("usersCount").textContent = summary;
+
+      const list = $("usersList");
+      list.replaceChildren();
+
+      if (!users.length) {
+        const empty = document.createElement("div");
+        empty.className = "muted";
+        empty.textContent = "No named users found.";
+        list.appendChild(empty);
+        return;
+      }
+
+      users.forEach(user => {
+        const row = document.createElement("div");
+        row.className = "user-row";
+
+        const name = document.createElement("strong");
+        name.className = "user-name";
+        name.textContent = user.uid === currentUser.uid
+          ? `${user.name} (You)`
+          : user.name;
+
+        const status = document.createElement("span");
+        status.className = user.online
+          ? "user-status active"
+          : "user-status";
+        status.textContent = user.online ? "Active" : "Inactive";
+
+        const actions = document.createElement("div");
+        actions.className = "user-call-buttons";
+
+        const audio = document.createElement("button");
+        audio.className = "call-user-button";
+        audio.type = "button";
+        audio.textContent = "📞";
+        audio.title = "Audio call";
+        audio.disabled =
+          user.uid === currentUser.uid || !user.online;
+
+        const video = document.createElement("button");
+        video.className = "call-user-button";
+        video.type = "button";
+        video.textContent = "📹";
+        video.title = "Video call";
+        video.disabled =
+          user.uid === currentUser.uid || !user.online;
+
+        audio.onclick = () => {
+          startCall(user.uid, user.name, "audio");
+        };
+
+        video.onclick = () => {
+          startCall(user.uid, user.name, "video");
+        };
+
+        actions.append(audio, video);
+        row.append(name, status, actions);
+        list.appendChild(row);
+      });
+    }
+
+    async function setupPresence() {
+      presenceRef = ref(db, `${BASE}/presence/${currentUser.uid}`);
+
+      const tabId =
+        `${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+      presenceTabRef = ref(
+        db,
+        `${BASE}/presence/${currentUser.uid}/tabs/${tabId}`
+      );
+
+      await onDisconnect(presenceTabRef).remove();
+
+      await set(presenceTabRef, {
+        chatName,
+        online: true,
+        lastActive: serverTimestamp()
+      });
+    }
+
+    function startIncomingRingtone() {
+      stopIncomingRingtone();
+
+      try {
+        ringtoneContext = new (
+          window.AudioContext ||
+          window.webkitAudioContext
+        )();
+
+        const beep = () => {
+          if (!ringtoneContext) {
+            return;
+          }
+
+          const oscillator =
+            ringtoneContext.createOscillator();
+
+          const gain =
+            ringtoneContext.createGain();
+
+          oscillator.type = "sine";
+          oscillator.frequency.value = 720;
+
+          gain.gain.setValueAtTime(
+            0.0001,
+            ringtoneContext.currentTime
+          );
+
+          gain.gain.exponentialRampToValueAtTime(
+            0.18,
+            ringtoneContext.currentTime + 0.04
+          );
+
+          gain.gain.exponentialRampToValueAtTime(
+            0.0001,
+            ringtoneContext.currentTime + 0.65
+          );
+
+          oscillator.connect(gain);
+          gain.connect(ringtoneContext.destination);
+
+          oscillator.start();
+          oscillator.stop(
+            ringtoneContext.currentTime + 0.7
+          );
+        };
+
+        ringtoneContext.resume().then(() => {
+          beep();
+          ringtoneTimer = setInterval(beep, 1400);
+        });
+      } catch (error) {
+        console.error("Ringtone error:", error);
+      }
+    }
+
+    function stopIncomingRingtone() {
+      if (ringtoneTimer) {
+        clearInterval(ringtoneTimer);
+        ringtoneTimer = null;
+      }
+
+      if (ringtoneContext) {
+        ringtoneContext.close().catch(() => {});
+        ringtoneContext = null;
+      }
+    }
+
+    function stopCallListeners() {
+      callListeners.forEach(stop => {
+        try {
+          stop();
+        } catch {
+          // Already stopped.
+        }
+      });
+
+      callListeners = [];
+    }
+
+    function stopLocalMedia() {
+      if (localStream) {
+        localStream.getTracks().forEach(track => track.stop());
+        localStream = null;
+      }
+
+      $("localVideo").srcObject = null;
+      $("remoteVideo").srcObject = null;
+    }
+
+    async function cleanupCall(removeSignal = true) {
+      stopIncomingRingtone();
+      stopCallListeners();
+
+      if (peerConnection) {
+        peerConnection.close();
+        peerConnection = null;
+      }
+
+      stopLocalMedia();
+
+      const endedCallId = currentCallId;
+      currentCallId = null;
+      currentCallType = null;
+      pendingIncomingCall = null;
+      speakerOn = true;
+      $("speakerButton").textContent = "🔊 Speaker";
+
+      $("callModal").hidden = true;
+      $("incomingCallModal").hidden = true;
+
+      if (removeSignal && endedCallId) {
+        await update(
+          ref(db, `${BASE}/calls/${endedCallId}`),
+          {
+            status: "ended",
+            endedAt: serverTimestamp()
+          }
+        ).catch(() => {});
+
+        await remove(
+          ref(db, `${BASE}/calls/${endedCallId}`)
+        ).catch(() => {});
+      }
+    }
+
+    async function getMedia(type) {
+      if (
+        !navigator.mediaDevices ||
+        !navigator.mediaDevices.getUserMedia
+      ) {
+        throw new Error("Calling requires HTTPS or localhost.");
+      }
+
+      return navigator.mediaDevices.getUserMedia(
+        type === "video"
+          ? {
+              audio: true,
+              video: {
+                facingMode: "user",
+                width: { ideal: 1280 },
+                height: { ideal: 720 }
+              }
+            }
+          : {
+              audio: true,
+              video: false
+            }
+      );
+    }
+
+    function createPeerConnection(callId, partnerUid) {
+      peerConnection = new RTCPeerConnection(rtcConfiguration);
+
+      peerConnection.onicecandidate = event => {
+        if (!event.candidate) {
+          return;
+        }
+
+        const candidateRef = push(
+          ref(
+            db,
+            `${BASE}/calls/${callId}/candidates/${currentUser.uid}`
+          )
+        );
+
+        set(candidateRef, event.candidate.toJSON())
+          .catch(error => {
+            console.error("ICE candidate error:", error);
+          });
+      };
+
+      peerConnection.ontrack = event => {
+        if (event.streams[0]) {
+          $("remoteVideo").srcObject = event.streams[0];
+          routeRemoteAudio();
+        }
+      };
+
+      peerConnection.onconnectionstatechange = () => {
+        if (!peerConnection) {
+          return;
+        }
+
+        if (peerConnection.connectionState === "connected") {
+          $("callStatus").textContent = "Connected";
+        }
+
+        if (
+          peerConnection.connectionState === "failed" ||
+          peerConnection.connectionState === "disconnected"
+        ) {
+          $("callStatus").textContent = "Connection lost";
+        }
+      };
+
+      const candidateStop = onValue(
+        ref(
+          db,
+          `${BASE}/calls/${callId}/candidates/${partnerUid}`
+        ),
+        snapshot => {
+          snapshot.forEach(child => {
+            const candidate = child.val();
+
+            if (!candidate || !peerConnection) {
+              return;
+            }
+
+            peerConnection.addIceCandidate(
+              new RTCIceCandidate(candidate)
+            ).catch(error => {
+              console.error("Candidate error:", error);
+            });
+          });
+        }
+      );
+
+      callListeners.push(candidateStop);
+
+      let callNodeSeen = false;
+
+      const statusStop = onValue(
+        ref(db, `${BASE}/calls/${callId}`),
+        snapshot => {
+          if (!currentCallId || currentCallId !== callId) {
+            return;
+          }
+
+          if (!snapshot.exists()) {
+            if (callNodeSeen) {
+              $("chatError").textContent = "Call ended by peer.";
+              cleanupCall(false);
+            }
+            return;
+          }
+
+          callNodeSeen = true;
+          const status = snapshot.val()?.status;
+
+          if (status === "ended" || status === "rejected") {
+            $("chatError").textContent =
+              status === "rejected"
+                ? "Call rejected."
+                : "Call ended by peer.";
+            cleanupCall(true);
+          }
+        }
+      );
+
+      callListeners.push(statusStop);
+    }
+
+    async function startCall(partnerUid, partnerName, type) {
+      if (!currentUser || currentCallId) {
+        return;
+      }
+
+      try {
+        currentCallId =
+          `${currentUser.uid}_${partnerUid}_${Date.now()}`;
+
+        currentCallType = type;
+        speakerOn = true;
+        $("speakerButton").textContent = "🔊 Speaker";
+
+        $("callTitle").textContent =
+          `${type === "video" ? "Video" : "Audio"} call with ${partnerName}`;
+
+        $("callStatus").textContent = "Calling…";
+        $("callModal").hidden = false;
+
+        localStream = await getMedia(type);
+        $("localVideo").srcObject = localStream;
+        $("localVideo").hidden = type !== "video";
+
+        createPeerConnection(currentCallId, partnerUid);
+
+        localStream.getTracks().forEach(track => {
+          peerConnection.addTrack(track, localStream);
+        });
+
+        const offer = await peerConnection.createOffer();
+        await peerConnection.setLocalDescription(offer);
+
+        await set(
+          ref(db, `${BASE}/calls/${currentCallId}`),
+          {
+            callerUid: currentUser.uid,
+            callerName: chatName,
+            receiverUid: partnerUid,
+            callType: type,
+            status: "ringing",
+            offer: {
+              type: offer.type,
+              sdp: offer.sdp
+            },
+            createdAt: serverTimestamp()
+          }
+        );
+
+        const answerStop = onValue(
+          ref(db, `${BASE}/calls/${currentCallId}/answer`),
+          async snapshot => {
+            const answer = snapshot.val();
+
+            if (
+              answer &&
+              peerConnection &&
+              !peerConnection.currentRemoteDescription
+            ) {
+              await peerConnection.setRemoteDescription(
+                new RTCSessionDescription(answer)
+              );
+
+              $("callStatus").textContent = "Connected";
+            }
+          }
+        );
+
+        callListeners.push(answerStop);
+      } catch (error) {
+        console.error("Start call error:", error);
+        $("callStatus").textContent = "Could not start call.";
+        await cleanupCall(false);
+      }
+    }
+
+    function watchIncomingCalls() {
+      const callsStop = onValue(
+        ref(db, `${BASE}/calls`),
+        snapshot => {
+          if (!currentUser || currentCallId) {
+            return;
+          }
+
+          let incoming = null;
+
+          snapshot.forEach(child => {
+            const call = child.val();
+
+            if (
+              call &&
+              call.receiverUid === currentUser.uid &&
+              call.status === "ringing"
+            ) {
+              incoming = {
+                id: child.key,
+                ...call
+              };
+            }
+          });
+
+          if (
+            pendingIncomingCall &&
+            !currentCallId
+          ) {
+            const pendingSnap = snapshot.child(
+              pendingIncomingCall.id
+            );
+            const stillRinging =
+              pendingSnap.exists() &&
+              pendingSnap.val()?.status === "ringing";
+
+            if (!stillRinging) {
+              pendingIncomingCall = null;
+              $("incomingCallModal").hidden = true;
+              stopIncomingRingtone();
+            }
+          }
+
+          if (!incoming) {
+            return;
+          }
+
+          pendingIncomingCall = incoming;
+
+          $("incomingCallTitle").textContent =
+            `${incoming.callerName || "Someone"} is calling`;
+
+          $("incomingCallType").textContent =
+            incoming.callType === "video"
+              ? "Incoming video call"
+              : "Incoming audio call";
+
+          $("incomingCallModal").hidden = false;
+          startIncomingRingtone();
+        },
+        error => {
+          console.error("Incoming-call listener error:", error);
+          $("chatError").textContent =
+            "Cannot receive calls. Check your Firebase rules.";
+        }
+      );
+
+      listeners.push(callsStop);
+    }
+
+    async function acceptIncomingCall() {
+      stopIncomingRingtone();
+
+      const incoming = pendingIncomingCall;
+
+      if (!incoming || !currentUser) {
+        return;
+      }
+
+      try {
+        currentCallId = incoming.id;
+        currentCallType = incoming.callType;
+        speakerOn = true;
+        $("speakerButton").textContent = "🔊 Speaker";
+
+        $("incomingCallModal").hidden = true;
+        $("callModal").hidden = false;
+
+        $("callTitle").textContent =
+          `${incoming.callType === "video" ? "Video" : "Audio"} call with ${incoming.callerName}`;
+
+        $("callStatus").textContent = "Connecting…";
+
+        localStream = await getMedia(incoming.callType);
+        $("localVideo").srcObject = localStream;
+        $("localVideo").hidden =
+          incoming.callType !== "video";
+
+        createPeerConnection(
+          incoming.id,
+          incoming.callerUid
+        );
+
+        localStream.getTracks().forEach(track => {
+          peerConnection.addTrack(track, localStream);
+        });
+
+        await peerConnection.setRemoteDescription(
+          new RTCSessionDescription(incoming.offer)
+        );
+
+        const answer = await peerConnection.createAnswer();
+        await peerConnection.setLocalDescription(answer);
+
+        await update(
+          ref(db, `${BASE}/calls/${incoming.id}`),
+          {
+            status: "accepted",
+            answer: {
+              type: answer.type,
+              sdp: answer.sdp
+            }
+          }
+        );
+      } catch (error) {
+        console.error("Accept call error:", error);
+        await cleanupCall(false);
+      }
+    }
+
+    async function rejectIncomingCall() {
+      stopIncomingRingtone();
+
+      if (pendingIncomingCall) {
+        await update(
+          ref(db, `${BASE}/calls/${pendingIncomingCall.id}`),
+          {
+            status: "rejected"
+          }
+        ).catch(error => {
+          console.error("Reject call error:", error);
+        });
+      }
+
+      pendingIncomingCall = null;
+      $("incomingCallModal").hidden = true;
+    }
+
+    function toggleMute() {
+      const track = localStream?.getAudioTracks()[0];
+
+      if (!track) {
+        return;
+      }
+
+      track.enabled = !track.enabled;
+
+      $("muteButton").textContent = track.enabled
+        ? "🎙️ Mute"
+        : "🔇 Unmute";
+    }
+
+    function toggleCamera() {
+      const track = localStream?.getVideoTracks()[0];
+
+      if (!track) {
+        return;
+      }
+
+      track.enabled = !track.enabled;
+
+      $("cameraButton").textContent = track.enabled
+        ? "📹 Camera off"
+        : "📷 Camera on";
+    }
+
+    function toggleSpeaker() {
+      speakerOn = !speakerOn;
+
+      $("speakerButton").textContent = speakerOn
+        ? "🔊 Speaker"
+        : "🔈 Earpiece";
+
+      routeRemoteAudio();
+    }
+
+    async function routeRemoteAudio() {
+      const remote = $("remoteVideo");
+
+      if (typeof remote.setSinkId !== "function") {
+        return;
+      }
+
+      try {
+        const devices =
+          await navigator.mediaDevices.enumerateDevices();
+        const outputs = devices.filter(
+          device => device.kind === "audiooutput"
+        );
+
+        let targetId = "";
+
+        if (!speakerOn) {
+          const earpiece =
+            outputs.find(device =>
+              /earpiece|receiver/i.test(device.label || "")
+            ) ||
+            outputs.find(
+              device =>
+                !/speaker|default/i.test(device.label || "")
+            );
+          targetId = earpiece ? earpiece.deviceId : "";
+        }
+
+        await remote.setSinkId(targetId);
+      } catch (error) {
+        console.error("Speaker routing error:", error);
+      }
+    }
+
+    async function loadChatName() {
+      const snapshot = await get(
+        ref(db, `${BASE}/users/${currentUser.uid}/chatName`)
+      );
+
+      if (
+        snapshot.exists() &&
+        String(snapshot.val()).trim()
+      ) {
+        chatName = String(snapshot.val()).trim();
+        await playGentlyRevealAndEnter(() => {
+          startChat();
+        });
+        return;
+      }
+
+      await playGentlyRevealAndEnter(() => {
+        $("nameTitle").textContent = "Choose your chatting name";
+        $("chatNameInput").value = "";
+        $("cancelNameButton").hidden = true;
+        $("nameModal").hidden = false;
+      });
+    }
+
+    function startChat() {
+      document.title = "Keeish Chat";
+      $("loginScreen").hidden = true;
+      $("chatScreen").hidden = false;
+
+      listeners.push(
+        onValue(ref(db, ".info/connected"), snapshot => {
+          connected = snapshot.val() === true;
+
+          $("connection").textContent = connected
+            ? `Connected as ${chatName}`
+            : "Offline · Reconnecting…";
+
+          updateSendButton();
+        })
+      );
+
+      const messagesQuery = query(
+        ref(db, `${BASE}/messages`),
+        orderByChild("createdAt"),
+        limitToLast(100)
+      );
+
+      listeners.push(
+        onValue(
+          messagesQuery,
+          renderMessages,
+          error => {
+            console.error(error);
+            $("chatError").textContent =
+              "Cannot load messages.";
+          }
+        )
+      );
+
+      listeners.push(
+        onValue(ref(db, `${BASE}/users`), snapshot => {
+          registeredUsers = snapshot.val() || {};
+          renderUsers();
+        })
+      );
+
+      listeners.push(
+        onValue(ref(db, `${BASE}/presence`), snapshot => {
+          presenceData = snapshot.val() || {};
+          renderUsers();
+        })
+      );
+
+      setupPresence().catch(error => {
+        console.error(error);
+        $("chatError").textContent =
+          "Presence could not be started.";
+      });
+
+      watchIncomingCalls();
+    }
+
+    function cleanup() {
+      clearLongPress();
+      closeUnsendOverlay();
+      stopIncomingRingtone();
+
+      if (peerConnection) {
+        peerConnection.close();
+        peerConnection = null;
+      }
+
+      stopLocalMedia();
+      stopCallListeners();
+
+      listeners.forEach(stop => {
+        try {
+          stop();
+        } catch {
+          // Already stopped.
+        }
+      });
+
+      listeners = [];
+
+      if (presenceTabRef) {
+        onDisconnect(presenceTabRef).cancel().catch(() => {});
+        remove(presenceTabRef).catch(() => {});
+        presenceTabRef = null;
+      }
+
+      presenceRef = null;
+      currentMessages.clear();
+      registeredUsers = {};
+      presenceData = {};
+      chatName = "";
+      connected = false;
+      messagesLoaded = false;
+      currentCallId = null;
+      pendingIncomingCall = null;
+      isRevealingKeeish = false;
+
+      $("messages").replaceChildren();
+      $("messageInput").value = "";
+      $("messageInput").style.height = "52px";
+      $("userSummary").textContent =
+        "0 active · 0 inactive · 0 total";
+
+      updateSendButton();
+      applyTipsCamouflage();
+    }
+
+    $("loginForm").addEventListener("submit", async event => {
+      event.preventDefault();
+
+      $("loginButton").disabled = true;
+      $("loginButton").textContent = "Verifying…";
+      $("loginError").textContent = "";
+
+      try {
+        await signInWithEmailAndPassword(
+          auth,
+          $("email").value.trim(),
+          $("password").value
+        );
+      } catch (error) {
+        console.error("Firebase login error:", error);
+
+        const code = error?.code || "unknown-error";
+        const message = {
+          "auth/invalid-credential":
+            "Invalid email or password.",
+          "auth/wrong-password":
+            "Incorrect password.",
+          "auth/user-not-found":
+            "No account found with this email.",
+          "auth/invalid-email":
+            "Enter a valid email address.",
+          "auth/user-disabled":
+            "This account has been disabled.",
+          "auth/too-many-requests":
+            "Too many attempts. Try again later.",
+          "auth/network-request-failed":
+            "Network error. Check your connection.",
+          "auth/operation-not-allowed":
+            "Email/Password login is not enabled.",
+          "auth/unauthorized-domain":
+            "This website domain is not authorized."
+        }[code] || `Login failed: ${code}`;
+
+        $("loginError").textContent = message;
+      } finally {
+        $("loginButton").disabled = false;
+        $("loginButton").textContent = "Sign in";
+      }
+    });
+
+    $("nameForm").addEventListener("submit", async event => {
+      event.preventDefault();
+
+      const name = $("chatNameInput").value.trim();
+
+      if (name.length < 2 || name.length > 30) {
+        $("nameError").textContent =
+          "Name must contain 2 to 30 characters.";
+        return;
+      }
+
+      $("saveNameButton").disabled = true;
+      $("nameError").textContent = "";
+
+      try {
+        await set(
+          ref(db, `${BASE}/users/${currentUser.uid}/chatName`),
+          name
+        );
+
+        chatName = name;
+        $("nameModal").hidden = true;
+
+        if (presenceTabRef) {
+          await update(presenceTabRef, {
+            chatName,
+            online: true,
+            lastActive: serverTimestamp()
+          });
+        }
+
+        if ($("chatScreen").hidden) {
+          startChat();
+        }
+      } catch (error) {
+        console.error(error);
+        $("nameError").textContent =
+          "Could not save your name.";
+      } finally {
+        $("saveNameButton").disabled = false;
+      }
+    });
+
+    $("cancelNameButton").onclick = () => {
+      $("nameModal").hidden = true;
+    };
+
+    $("editNameButton").onclick = () => {
+      $("nameTitle").textContent = "Edit your chatting name";
+      $("chatNameInput").value = chatName;
+      $("cancelNameButton").hidden = false;
+      $("nameError").textContent = "";
+      $("nameModal").hidden = false;
+    };
+
+    $("usersButton").onclick = () => {
+      renderUsers();
+      $("usersModal").hidden = false;
+    };
+
+    $("closeUsersButton").onclick = () => {
+      $("usersModal").hidden = true;
+    };
+
+    $("closeInfoButton").onclick = () => {
+      $("infoModal").hidden = true;
+    };
+
+    $("acceptCallButton").onclick = acceptIncomingCall;
+    $("rejectCallButton").onclick = rejectIncomingCall;
+    $("muteButton").onclick = toggleMute;
+    $("cameraButton").onclick = toggleCamera;
+    $("speakerButton").onclick = toggleSpeaker;
+
+    $("endCallButton").onclick = async () => {
+      await cleanupCall(true);
+    };
+
+    $("logoutButton").onclick = async () => {
+      await signOut(auth);
+    };
+
+    $("messageInput").addEventListener("input", () => {
+      const input = $("messageInput");
+      input.style.height = "52px";
+      input.style.height =
+        Math.min(input.scrollHeight, 140) + "px";
+      updateSendButton();
+    });
+
+    $("composer").addEventListener("submit", async event => {
+      event.preventDefault();
+
+      const text = $("messageInput").value.trim();
+
+      if (
+        !currentUser ||
+        !chatName ||
+        !connected ||
+        !messagesLoaded ||
+        !text
+      ) {
+        return;
+      }
+
+      $("sendButton").disabled = true;
+
+      try {
+        await set(push(ref(db, `${BASE}/messages`)), {
+          uid: currentUser.uid,
+          senderName: chatName,
+          text,
+          createdAt: serverTimestamp()
+        });
+
+        $("messageInput").value = "";
+        $("messageInput").style.height = "52px";
+      } catch (error) {
+        console.error(error);
+        $("chatError").textContent =
+          "Message could not be sent.";
+      }
+
+      updateSendButton();
+    });
+
+    document.querySelectorAll(".modal").forEach(modal => {
+      modal.addEventListener("click", event => {
+        if (event.target === modal) {
+          modal.hidden = true;
+        }
+      });
+    });
+
+    document.addEventListener("pointerdown", event => {
+      const overlay = document.querySelector(".unsend-overlay");
+
+      if (
+        overlay &&
+        !event.target.closest(".unsend-overlay") &&
+        !event.target.closest(".message")
+      ) {
+        closeUnsendOverlay();
+      }
+    });
+
+    window.addEventListener("pagehide", () => {
+      if (presenceTabRef && currentUser) {
+        remove(presenceTabRef).catch(() => {});
+      }
+    });
+
+    onAuthStateChanged(auth, async user => {
+      cleanup();
+      currentUser = user;
+
+      if (!user) {
+        applyTipsCamouflage();
+        return;
+      }
+
+      $("password").value = "";
+
+      try {
+        await loadChatName();
+      } catch (error) {
+        console.error(error);
+        $("nameError").textContent =
+          "Could not load your name.";
+        $("cancelNameButton").hidden = true;
+        $("nameModal").hidden = false;
+      }
+    });
+
+    setPersistence(auth, browserSessionPersistence)
+      .then(() => {
+        $("loginButton").disabled = false;
+        $("loginButton").textContent = "Sign in";
+      })
+      .catch(error => {
+        console.error(error);
+        $("loginButton").textContent =
+          "Service unavailable";
+        $("loginError").textContent =
+          "Could not initialize service.";
+      });
+  </script>
+</body>
+</html>
