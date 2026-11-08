@@ -1,0 +1,9 @@
+{
+  "name": "Tips — Manuals & Quick Guides",
+  "description": "Practical manuals, everyday handy tips, and private communications disguised as a manual reader, ready for Android APK compilation.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

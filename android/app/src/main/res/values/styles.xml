@@ -1,0 +1,10 @@
+<resources>
+    <style name="Theme.TipsApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryDark</item>
+        <item name="colorOnPrimary">#09271F</item>
+        <item name="android:statusBarColor">@color/backgroundColor</item>
+        <item name="android:navigationBarColor">@color/backgroundColor</item>
+        <item name="android:windowBackground">@color/backgroundColor</item>
+    </style>
+</resources>
